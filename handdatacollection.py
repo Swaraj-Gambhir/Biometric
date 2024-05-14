@@ -44,13 +44,14 @@ while True:
                 row = np.array(df.loc[index] ) # Access row by index using .loc
                 cosine = np.dot(row,li)/(norm(row)*norm(li))
                 cosine =round(cosine, 3)
+                print(index)
                 o=o+" Cosine Similarity"+ str(j)+":"+str(cosine)
                 j+=1
         
         
     
     
-    print(li)
+#     print(li)
     q = text(q,o)
 
     cv.imshow("Image",q)

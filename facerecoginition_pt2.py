@@ -7,7 +7,10 @@ import psycopg2
 import os
 import pandas as pd
 import numpy as np
+import json
 First = True
+dic={}
+no=0
 for filename in os.listdir("stored-faces"):
     # opening the image
     img = Image.open("stored-faces/" + filename)
@@ -19,10 +22,27 @@ for filename in os.listdir("stored-faces"):
     
     if First:
         First= False
-        arr = embedding
-        df = pd.DataFrame(arr,columns = range(768),index=[filename[:-4]])
-    else:
-        arr = pd.Series(np.array(embedding).reshape(768))
-        df = df._append(arr,index=filename[:-4])
-print(df)
+        arr = embedding.reshape(768)
+        # single_row_df = pd.Series(arr, name=filename[:-4])
+        df = pd.DataFrame([arr], columns=range(768), index=[filename[:-4]])
+        dic[no]=filename[:-4]
+        no+=1
 
+
+# Convert the Series to a DataFrame (single row)
+        
+    else:
+        arr = pd.Series(np.array(embedding).reshape(768), name=filename[:-4])
+        
+        df = df._append(arr, ignore_index=True)
+        dic[no]=filename[:-4]
+        no+=1
+        
+
+        
+df.to_csv('facedata.csv',index=False)
+# Open a file for writing in text mode (use 'w' for write)
+with open("faceandindex.json", "w") as json_file:
+
+  # Use json.dump() to write the dictionary directly to the file
+  json.dump(dic, json_file, indent=4) 

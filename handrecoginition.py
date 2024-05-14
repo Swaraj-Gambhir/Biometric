@@ -6,8 +6,8 @@ l=None
 dick={}
 a ="0-"
 first = True
-for filen in os.listdir("hand_images"):
-      img = cv.imread("hand_images/" + filen)
+for filen in os.listdir("face_images"):
+      img = cv.imread("face_images/" + filen)
       # print(img)
       dick={}
       for i in range(0,21):
@@ -31,4 +31,4 @@ for filen in os.listdir("hand_images"):
             df=df._append(dick, ignore_index=True)
       cv.imwrite(f'hand_images_dist/dist_{filen}', img)
 
-df.to_csv('table.csv',index=False)
+df.to_csv('handdata.csv',index=False)
